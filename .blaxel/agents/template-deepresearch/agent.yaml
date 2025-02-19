@@ -1,0 +1,19 @@
+
+apiVersion: blaxel.ai/v1alpha1
+kind: Agent
+metadata:
+  displayName: template-deepresearch
+  labels:
+    x-blaxel-auto-generated: 'true'
+  name: template-deepresearch
+  workspace: main
+spec:
+  description: ''
+  functions: []
+  model: gpt-4o
+  prompt: ''
+  runtime:
+    envs:
+    - name: TAVILY_API_KEY
+      value: ${secrets.TAVILY_API_KEY}
+
