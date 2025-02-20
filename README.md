@@ -74,6 +74,20 @@ bl serve --hotrealod
 
 _Note:_ This command starts the server and enables hot reload so that changes to the source code are automatically reflected.
 
+## Testing your agent
+
+```bash
+bl chat --local template-deepresearch
+```
+
+_Note:_ This command starts a chat interface. Example question: Do a report of annual revenu for the last 10 years of NVIDIA
+
+or
+
+```
+bl run agent template-deepresearch --local --data '{"input": "Do a report of annual revenu for the last 10 years of NVIDIA", "report_plan_depth": 20, "recursion_limit": 100 }'
+```
+
 ## Deploying to Blaxel
 
 When you are ready to deploy your application, run:

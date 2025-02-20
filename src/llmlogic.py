@@ -3,6 +3,7 @@ from logging import getLogger
 
 from blaxel.agents import get_chat_model
 from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.graph.graph import RunnableConfig
 
 from functions.search import (SearchQuery, format_search_query_results,
                               run_search_queries)
@@ -17,13 +18,13 @@ logger = getLogger(__name__)
 
 llm = get_chat_model(os.getenv("BL_MODEL", "gpt-4o"))
 
-async def generate_report_plan(state: ReportState):
+async def generate_report_plan(state: ReportState, config: RunnableConfig):
     """Generate the overall plan for building the report"""
     topic = state["topic"]
-    logger.info('--- Generating Report Plan ---')
+    logger.info(f'--- Generating Report Plan, report_plan_depth: {config["metadata"]["report_plan_depth"]} ---')
 
     report_structure = DEFAULT_REPORT_STRUCTURE
-    number_of_queries = 8
+    number_of_queries = config["metadata"]["report_plan_depth"]
 
     structured_llm = llm.with_structured_output(Queries)
 

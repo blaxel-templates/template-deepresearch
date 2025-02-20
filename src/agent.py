@@ -1,12 +1,11 @@
 import os
-import uuid
 from logging import getLogger
 from typing import Union
 
 from blaxel.agents import agent
 from fastapi import Request
 from langgraph.graph import END, START, StateGraph
-from langgraph.graph.graph import CompiledGraph
+from langgraph.graph.graph import CompiledGraph, RunnableConfig
 from rich.console import Console
 from rich.markdown import Markdown as RichMarkdown
 
@@ -72,18 +71,22 @@ reporter_agent = builder.compile()
     },
     override_agent=reporter_agent
 )
-async def main(request: Request, agent: Union[None, CompiledGraph]):
+async def main(request: Request, agent: CompiledGraph):
     body = await request.json()
     console = Console()
     if body.get("inputs"):
         body["input"] = body["inputs"]
 
-
-    events = agent.astream(
-        {'topic' : body["input"]},
-        {"recursion_limit": 50},
-        stream_mode="values",
+    recursion_limit = body.get("recursion_limit", 50)
+    report_plan_depth = body.get("report_plan_depth", 8)
+    config = RunnableConfig(
+        recursion_limit=recursion_limit,
+        metadata={
+            "report_plan_depth": report_plan_depth
+        }
     )
+    message = {"topic" : body["input"]}
+    events = agent.astream(message, config, stream_mode="values")
 
     async for event in events:
         for k, v in event.items():
