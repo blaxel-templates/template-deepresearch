@@ -1,4 +1,4 @@
-apiVersion: blaxel.com/v1alpha1
+apiVersion: blaxel.ai/v1alpha1
 kind: IntegrationConnection
 metadata:
   name: openai-integration
@@ -7,7 +7,7 @@ spec:
   secret:
     apiKey: ${secrets.OPENAI_API_KEY}
 ---
-apiVersion: blaxel.com/v1alpha1
+apiVersion: blaxel.ai/v1alpha1
 kind: Model
 metadata:
   name: gpt-4o
