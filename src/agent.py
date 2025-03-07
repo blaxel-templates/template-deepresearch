@@ -57,7 +57,7 @@ reporter_agent = builder.compile()
             "name": "template-deepresearch",
         },
         "spec": {
-            "model": "gpt-4o",
+            "model": "sandbox-openai",
             "description": "",
             "runtime": {
                 "envs": [
