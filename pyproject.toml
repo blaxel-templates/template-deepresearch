@@ -5,7 +5,7 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "blaxel==0.0.70",
+    "blaxel==0.0.73",
     "langchain-openai>=0.3.0,<0.4.0",
     "rich>=13.9.4",
 ]
