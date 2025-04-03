@@ -1,25 +1,26 @@
 import os
 from logging import getLogger
 
-from blaxel.agents import get_chat_model
+from blaxel.models import bl_model
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph.graph import RunnableConfig
 
-from functions.search import (SearchQuery, format_search_query_results,
-                              run_search_queries)
-from prompts import (DEFAULT_REPORT_STRUCTURE, FINAL_SECTION_WRITER_PROMPT,
-                     REPORT_PLAN_QUERY_GENERATOR_PROMPT,
-                     REPORT_PLAN_SECTION_GENERATOR_PROMPT,
-                     REPORT_SECTION_QUERY_GENERATOR_PROMPT,
-                     SECTION_WRITER_PROMPT)
-from searchtypes import Queries, ReportState, Sections, SectionState
+from agent.prompts import (DEFAULT_REPORT_STRUCTURE,
+                           FINAL_SECTION_WRITER_PROMPT,
+                           REPORT_PLAN_QUERY_GENERATOR_PROMPT,
+                           REPORT_PLAN_SECTION_GENERATOR_PROMPT,
+                           REPORT_SECTION_QUERY_GENERATOR_PROMPT,
+                           SECTION_WRITER_PROMPT)
+from agent.search import (SearchQuery, format_search_query_results,
+                          run_search_queries)
+from agent.searchtypes import Queries, ReportState, Sections, SectionState
 
 logger = getLogger(__name__)
-
-llm = get_chat_model(os.getenv("BL_MODEL", "gpt-4o"))
+model = bl_model("sandbox-openai")
 
 async def generate_report_plan(state: ReportState, config: RunnableConfig):
     """Generate the overall plan for building the report"""
+    llm = await model.to_langchain()
     topic = state["topic"]
     logger.info(f'--- Generating Report Plan, report_plan_depth: {config["metadata"]["report_plan_depth"]} ---')
 
@@ -78,10 +79,11 @@ async def generate_report_plan(state: ReportState, config: RunnableConfig):
         logger.error(f"Error in generate_report_plan: {e}")
         return {"sections": []}
 
-def generate_queries(state: SectionState):
+async def generate_queries(state: SectionState):
     """ Generate search queries for a specific report section """
 
     # Get state
+    llm = await model.to_langchain()
     section = state["section"]
     logger.info('--- Generating Search Queries for Section: '+ section.name +' ---')
     # Get configuration
@@ -114,8 +116,9 @@ async def search_web(state: SectionState):
     return {"source_str": search_context}
 
 
-def write_section(state: SectionState):
+async def write_section(state: SectionState):
     """ Write a section of the report """
+    llm = await model.to_langchain()
 
     # Get state
     section = state["section"]
@@ -135,9 +138,9 @@ def write_section(state: SectionState):
     return {"completed_sections": [section]}
 
 
-def write_final_sections(state: SectionState):
+async def write_final_sections(state: SectionState):
     """ Write the final sections of the report, which do not require web search and use the completed sections as context"""
-
+    llm = await model.to_langchain()
     # Get state
     section = state["section"]
     completed_report_sections = state["report_sections_from_research"]

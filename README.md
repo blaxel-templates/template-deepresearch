@@ -56,20 +56,13 @@ Special thanks to:
   Then, update the following values with your own credentials:
 
   - [Tavily Api Key](https://app.tavily.com/home): `TAVILY_API_KEY`
-  - [OpenAI api key](https://platform.openai.com/api-keys): `OPENAI_API_KEY`
-
-- **Blaxel apply:** register your integration connection / functions / models on blaxel.ai
-
-```bash
-bl apply -R -f .blaxel
-```
 
 ## Running the Server Locally
 
 Start the development server with hot reloading using the Blaxel CLI command:
 
 ```bash
-bl serve --hotrealod
+bl serve --hotreload
 ```
 
 _Note:_ This command starts the server and enables hot reload so that changes to the source code are automatically reflected.
@@ -100,13 +93,18 @@ This command uses your code and the configuration files under the `.blaxel` dire
 
 ## Project Structure
 
-- **src/**
-  - `agent.py` - Configures the chat agent, streams HTTP responses, and integrates conversational context.
-  - `llmlogic.py` - Where the magic happens
-  - `prompts.py` - List of prompts given to agents
-  - `functions` - Functions to search the web with Tavily
-- **.blaxel/** - Contains configuration files for Blaxel functions and models.
-- **pyproject.toml** -UV package manager file.
+- **src/main.py** - This is your entrypoint
+- **src/agent**
+  - `/agent.py` - Configures the chat agent, streams HTTP responses, and integrates conversational context.
+  - `/llmlogic.py` - Where the magic happens
+  - `/prompts.py` - List of prompts given to agents
+  - `/functions` - Functions to search the web with Tavily
+- **src/server**
+  - `/router.py` - Define routes for your API
+  - `/middleware.py` - Define middleware for your API
+  - `/error.py` - Handle error for Request
+- **pyproject.toml** - UV package manager file.
+- **blaxel.toml** - Configuration file for deployment on blaxel
 
 ## License
 

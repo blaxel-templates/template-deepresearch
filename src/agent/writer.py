@@ -2,7 +2,7 @@ from logging import getLogger
 
 from langgraph.constants import Send
 
-from searchtypes import ReportState, Section
+from agent.searchtypes import ReportState, Section
 
 logger = getLogger(__name__)
 

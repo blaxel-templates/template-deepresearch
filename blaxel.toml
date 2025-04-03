@@ -1,0 +1,6 @@
+name = "deepresearch"
+workspace = ""
+type = "agent"
+
+functions = ["all"]
+models = ["sandbox-openai"]

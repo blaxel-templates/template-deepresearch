@@ -49,10 +49,12 @@ async def run_search_queries(
             return []
         search_docs = await asyncio.gather(*search_tasks, return_exceptions=True)
         # Filter out any exceptions from the results
-        valid_results = [
-            doc for doc in search_docs
-            if not isinstance(doc, Exception)
-        ]
+        valid_results = []
+        for doc in search_docs:
+            if isinstance(doc, Exception):
+                logger.error(f"Error during search queries: {doc}", exc_info=doc)
+            else:
+                valid_results.append(doc)
         return valid_results
     except Exception as e:
         logger.error(f"Error during search queries: {e}")
