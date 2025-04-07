@@ -98,7 +98,6 @@ This command uses your code and the configuration files under the `.blaxel` dire
   - `/agent.py` - Configures the chat agent, streams HTTP responses, and integrates conversational context.
   - `/llmlogic.py` - Where the magic happens
   - `/prompts.py` - List of prompts given to agents
-  - `/functions` - Functions to search the web with Tavily
 - **src/server**
   - `/router.py` - Define routes for your API
   - `/middleware.py` - Define middleware for your API

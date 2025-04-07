@@ -2,3 +2,6 @@ type = "agent"
 
 functions = ["all"]
 models = ["sandbox-openai"]
+
+[secrets]
+TAVILY_API_KEY = "${secrets.TAVILY_API_KEY}"
