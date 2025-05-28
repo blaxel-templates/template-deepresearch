@@ -30,7 +30,7 @@ Special thanks to:
 - **[UV](https://github.com/astral-sh/uv):** An extremely fast Python package and project manager, written in Rust.
 - **[Blaxel CLI](https://docs.blaxel.ai/Get-started):** Ensure you have the Blaxel CLI installed. If not, install it globally:
   ```bash
-  curl -fsSL https://raw.githubusercontent.com/beamlit/toolkit/main/install.sh | BINDIR=$HOME/.local/bin sh
+  curl -fsSL https://raw.githubusercontent.com/blaxel-ai/toolkit/main/install.sh | BINDIR=$HOME/.local/bin sh
   ```
 - **Blaxel login:** Login to Blaxel platform
   ```bash
@@ -42,7 +42,7 @@ Special thanks to:
 - **Clone the repository and install the dependencies**:
 
   ```bash
-  git clone https://github.com/beamlit/template-deepresearch.git
+  git clone https://github.com/blaxel-ai/template-deepresearch.git
   cd template-deepresearch
   uv sync
   ```
