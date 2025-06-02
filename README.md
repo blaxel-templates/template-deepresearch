@@ -1,65 +1,111 @@
-# Template DeepResearch
+# Blaxel Deep Research Agent
 
-A template implementation of a deep research agent using LangGraph and GPT-4. This agent performs comprehensive research on any given topic by:
+<p align="center">
+  <img src="https://blaxel.ai/logo.png" alt="Blaxel" width="200"/>
+</p>
 
-1. Generating an initial research plan and outline
-2. Breaking down the topic into logical sections
-3. Performing targeted web searches using Tavily for each section
-4. Writing detailed section content based on search results
-5. Compiling and refining the final report
+<div align="center">
 
-The implementation uses LangGraph for orchestrating the research workflow, with parallel processing of sections for improved efficiency. It leverages GPT-4 for content generation and the Tavily search API for gathering relevant, up-to-date information from the web.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-powered-brightgreen.svg)](https://github.com/langchain-ai/langgraph)
+[![Tavily](https://img.shields.io/badge/Tavily-research-orange.svg)](https://tavily.com/)
 
-Key features:
+</div>
 
-- Automated research planning and execution
-- Parallel processing of research sections
-- Web search integration via Tavily
-- Structured report generation with citations
+A template implementation of a comprehensive deep research agent using LangGraph and GPT-4. This agent performs thorough research on any given topic by orchestrating multiple research phases, gathering information from multiple sources, and compiling detailed reports with citations and structured analysis.
+
+## 📑 Table of Contents
+
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Running Locally](#running-the-server-locally)
+  - [Testing](#testing-your-agent)
+  - [Deployment](#deploying-to-blaxel)
+- [Project Structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [Support](#support)
+- [License](#license)
+
+## ✨ Features
+
+- Comprehensive multi-phase research methodology
+- Automated research planning and outline generation
+- Parallel processing of research sections for efficiency
+- Web search integration via Tavily for up-to-date information
+- Structured report generation with proper citations
 - Configurable search depth and report formatting
+- Built on LangGraph for sophisticated workflow orchestration
+- Easy deployment and integration with Blaxel platform
 
-Special thanks to:
+## 🚀 Quick Start
 
-- [MG](https://www.analyticsvidhya.com/blog/2025/02/build-your-own-deep-research-agent): Creating this agent and showing an amazing tutorial
-- [Langchain](https://github.com/langchain-ai/open_deep_research/tree/main): Creating an awesome implementation of DeepResearch with langgraph
-- [OpenAI](https://openai.com/index/introducing-deep-research/): Showing everyone this feature
+For those who want to get up and running quickly:
 
-## Prerequisites
+```bash
+# Clone the repository
+git clone https://github.com/blaxel-ai/template-deepresearch.git
 
-- **Python:** 3.12 or later.
-- **[UV](https://github.com/astral-sh/uv):** An extremely fast Python package and project manager, written in Rust.
-- **[Blaxel CLI](https://docs.blaxel.ai/Get-started):** Ensure you have the Blaxel CLI installed. If not, install it globally:
-  ```bash
-  curl -fsSL https://raw.githubusercontent.com/blaxel-ai/toolkit/main/install.sh | BINDIR=$HOME/.local/bin sh
-  ```
-- **Blaxel login:** Login to Blaxel platform
-  ```bash
+# Navigate to the project directory
+cd template-deepresearch
+
+# Install dependencies
+uv sync
+
+# Set up your Tavily API key
+cp .env-sample .env
+# Edit .env and add your TAVILY_API_KEY
+
+# Start the server
+bl serve --hotreload
+
+# In another terminal, test the agent
+bl chat --local template-deepresearch
+```
+
+## 📋 Prerequisites
+
+- **Python:** 3.12 or later
+- **[UV](https://github.com/astral-sh/uv):** An extremely fast Python package and project manager, written in Rust
+- **[Tavily API Key](https://app.tavily.com/home):** Required for web search functionality
+- **Blaxel Platform Setup:** Complete Blaxel setup by following the [quickstart guide](https://docs.blaxel.ai/Get-started#quickstart)
+  - **[Blaxel CLI](https://docs.blaxel.ai/Get-started):** Ensure you have the Blaxel CLI installed. If not, install it globally:
+    ```bash
+    curl -fsSL https://raw.githubusercontent.com/blaxel-ai/toolkit/main/install.sh | BINDIR=/usr/local/bin sudo -E sh
+    ```
+  - **Blaxel login:** Login to Blaxel platform
+    ```bash
     bl login YOUR-WORKSPACE
-  ```
+    ```
 
-## Installation
+## 💻 Installation
 
-- **Clone the repository and install the dependencies**:
+**Clone the repository and install dependencies:**
 
-  ```bash
-  git clone https://github.com/blaxel-ai/template-deepresearch.git
-  cd template-deepresearch
-  uv sync
-  ```
+```bash
+git clone https://github.com/blaxel-ai/template-deepresearch.git
+cd template-deepresearch
+uv sync
+```
 
-- **Environment Variables:** Create a `.env` file with your configuration. You can begin by copying the sample file:
+**Set up environment variables:**
 
-  ```bash
-  cp .env-sample .env
-  ```
+```bash
+cp .env-sample .env
+```
 
-  Then, update the following values with your own credentials:
+Then update the following values with your own credentials:
+- **Tavily API Key**: `TAVILY_API_KEY`
 
-  - [Tavily Api Key](https://app.tavily.com/home): `TAVILY_API_KEY`
+## 🔧 Usage
 
-## Running the Server Locally
+### Running the Server Locally
 
-Start the development server with hot reloading using the Blaxel CLI command:
+Start the development server with hot reloading:
 
 ```bash
 bl serve --hotreload
@@ -67,23 +113,25 @@ bl serve --hotreload
 
 _Note:_ This command starts the server and enables hot reload so that changes to the source code are automatically reflected.
 
-## Testing your agent
+### Testing your agent
+
+You can test your deep research agent using the chat interface:
 
 ```bash
 bl chat --local template-deepresearch
 ```
 
-_Note:_ This command starts a chat interface. Example question: Do a report of annual revenu for the last 10 years of NVIDIA
+Example research query: "Do a report of annual revenue for the last 10 years of NVIDIA"
 
-or
+Or run it directly with specific parameters:
 
+```bash
+bl run agent template-deepresearch --local --data '{"input": "Do a report of annual revenue for the last 10 years of NVIDIA", "report_plan_depth": 20, "recursion_limit": 100}'
 ```
-bl run agent template-deepresearch --local --data '{"input": "Do a report of annual revenu for the last 10 years of NVIDIA", "report_plan_depth": 20, "recursion_limit": 100 }'
-```
 
-## Deploying to Blaxel
+### Deploying to Blaxel
 
-When you are ready to deploy your application, run:
+When you are ready to deploy your application:
 
 ```bash
 bl deploy
@@ -91,20 +139,92 @@ bl deploy
 
 This command uses your code and the configuration files under the `.blaxel` directory to deploy your application.
 
-## Project Structure
+## 📁 Project Structure
 
-- **src/main.py** - This is your entrypoint
-- **src/agent**
-  - `/agent.py` - Configures the chat agent, streams HTTP responses, and integrates conversational context.
-  - `/llmlogic.py` - Where the magic happens
-  - `/prompts.py` - List of prompts given to agents
-- **src/server**
-  - `/router.py` - Define routes for your API
-  - `/middleware.py` - Define middleware for your API
-  - `/error.py` - Handle error for Request
-- **pyproject.toml** - UV package manager file.
-- **blaxel.toml** - Configuration file for deployment on blaxel
+- **src/main.py** - Application entry point
+- **src/agent/** - Core research agent implementation
+  - **agent.py** - Main agent configuration and HTTP response streaming
+  - **llmlogic.py** - Research workflow logic and LangGraph implementation
+  - **prompts.py** - Research prompts and templates
+- **src/server/** - Server implementation and routing
+  - **router.py** - API route definitions
+  - **middleware.py** - Request/response middleware
+  - **error.py** - Error handling utilities
+- **pyproject.toml** - UV package manager configuration
+- **blaxel.toml** - Blaxel deployment configuration
+- **.env-sample** - Environment variables template
 
-## License
+## ❓ Troubleshooting
+
+### Common Issues
+
+1. **Blaxel Platform Issues**:
+   - Ensure you're logged in to your workspace: `bl login MY-WORKSPACE`
+   - Verify models are available: `bl get models`
+   - Check that functions exist: `bl get functions`
+
+2. **Tavily API Issues**:
+   - Ensure your Tavily API key is valid and active
+   - Check API usage limits and quotas
+   - Verify network connectivity to Tavily services
+
+3. **Research Depth Configuration**:
+   - Adjust `report_plan_depth` for more detailed outlines
+   - Increase `recursion_limit` for complex research topics
+   - Monitor processing time for large research projects
+
+4. **Memory and Performance**:
+   - Large research topics may require significant processing time
+   - Consider breaking down extremely broad topics
+   - Monitor system resources during parallel processing
+
+5. **Citation and Source Quality**:
+   - Review search terms and refine for better results
+   - Check date ranges for time-sensitive research
+   - Verify source credibility in generated reports
+
+For more help, please [submit an issue](https://github.com/blaxel-templates/template-deepresearch/issues) on GitHub.
+
+## 👥 Contributing
+
+Contributions are welcome! Here's how you can contribute:
+
+1. **Fork** the repository
+2. **Create** a feature branch:
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit** your changes:
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+4. **Push** to the branch:
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Submit** a Pull Request
+
+Please make sure to update tests as appropriate and follow the code style of the project.
+
+## 🆘 Support
+
+If you need help with this template:
+
+- [Submit an issue](https://github.com/blaxel-templates/template-deepresearch/issues) for bug reports or feature requests
+- Visit the [Blaxel Documentation](https://docs.blaxel.ai) for platform guidance
+- Check the [LangGraph Documentation](https://langchain-ai.github.io/langgraph/) for workflow framework help
+- Join our [Discord Community](https://discord.gg/G3NqzUPcHP) for real-time assistance
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+---
+
+## Acknowledgements
+
+Special thanks to:
+
+- **[MG](https://www.analyticsvidhya.com/blog/2025/02/build-your-own-deep-research-agent)**: Creating this agent and showing an amazing tutorial
+- **[Langchain](https://github.com/langchain-ai/open_deep_research/tree/main)**: Creating an awesome implementation of DeepResearch with LangGraph
+- **[OpenAI](https://openai.com/index/introducing-deep-research/)**: Showing everyone this feature
