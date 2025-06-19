@@ -1,19 +1,31 @@
 from logging import getLogger
 
-from blaxel.common.env import env
+from blaxel.core.common.env import env
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.graph import RunnableConfig
 from rich.console import Console
 from rich.markdown import Markdown as RichMarkdown
 
-from agent.llmlogic import (generate_queries, generate_report_plan, search_web,
-                            write_final_sections, write_section)
-from agent.searchtypes import (ReportState, ReportStateInput,
-                               ReportStateOutput, SectionOutputState,
-                               SectionState)
-from agent.writer import (compile_final_report, format_completed_sections,
-                          parallelize_final_section_writing,
-                          parallelize_section_writing)
+from agent.llmlogic import (
+    generate_queries,
+    generate_report_plan,
+    search_web,
+    write_final_sections,
+    write_section,
+)
+from agent.searchtypes import (
+    ReportState,
+    ReportStateInput,
+    ReportStateOutput,
+    SectionOutputState,
+    SectionState,
+)
+from agent.writer import (
+    compile_final_report,
+    format_completed_sections,
+    parallelize_final_section_writing,
+    parallelize_section_writing,
+)
 from inputs import DeepSearchInput
 
 logger = getLogger(__name__)
@@ -38,37 +50,40 @@ builder.add_node("write_final_sections", write_final_sections)
 builder.add_node("compile_final_report", compile_final_report)
 
 builder.add_edge(START, "generate_report_plan")
-builder.add_conditional_edges("generate_report_plan",
-                              parallelize_section_writing,
-                              ["section_builder_with_web_search"])
+builder.add_conditional_edges(
+    "generate_report_plan",
+    parallelize_section_writing,
+    ["section_builder_with_web_search"],
+)
 builder.add_edge("section_builder_with_web_search", "format_completed_sections")
-builder.add_conditional_edges("format_completed_sections",
-                              parallelize_final_section_writing,
-                              ["write_final_sections"])
+builder.add_conditional_edges(
+    "format_completed_sections",
+    parallelize_final_section_writing,
+    ["write_final_sections"],
+)
 builder.add_edge("write_final_sections", "compile_final_report")
 builder.add_edge("compile_final_report", END)
 
 reporter_agent = builder.compile()
+
 
 async def agent(request: DeepSearchInput):
     console = Console()
 
     config = RunnableConfig(
         recursion_limit=request.recursion_limit,
-        metadata={
-            "report_plan_depth": request.report_plan_depth
-        }
+        metadata={"report_plan_depth": request.report_plan_depth},
     )
-    message = {"topic" : request.inputs}
+    message = {"topic": request.inputs}
     events = reporter_agent.astream(message, config, stream_mode="values")
 
     async for event in events:
         for k, v in event.items():
             if env.VERBOSE:
                 if k != "__end__":
-                    console.print(RichMarkdown(repr(k) + ' -> ' + repr(v)))
-            if k == 'final_report':
-                logger.info('='*50)
-                logger.info('Final Report:')
+                    console.print(RichMarkdown(repr(k) + " -> " + repr(v)))
+            if k == "final_report":
+                logger.info("=" * 50)
+                logger.info("Final Report:")
                 yield v
     yield "No report found, you probably have an issue with tavily or openai connection"
