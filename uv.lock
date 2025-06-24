@@ -153,7 +153,7 @@ wheels = [
 
 [[package]]
 name = "blaxel"
-version = "0.2.0rc1"
+version = "0.2.0rc5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
@@ -167,9 +167,9 @@ dependencies = [
     { name = "tomli" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e1/c2/7d83ef974367f7c049152f12845a04e22aeef7bc5e27de86ff3b545316ef/blaxel-0.2.0rc1.tar.gz", hash = "sha256:049a14d0c71ad55033d37c17f194566220684cc175894138fb18cc39a312b4b2", size = 262717, upload-time = "2025-06-19T00:56:40.041Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/f6/0a3b5a8b6be39b910b58bd1e2537ef0395b9d1a6e560d76660aa62903036/blaxel-0.2.0rc5.tar.gz", hash = "sha256:f41be423c9a547f431e35a8e3fb0b0c18a0ebc0ae22f73b12aec7957cafcec0d", size = 262285, upload-time = "2025-06-22T00:47:31.856Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0c/7d/8034d40b90d310d7c6c2828162b21a224f2ad384c1d387851580e776319a/blaxel-0.2.0rc1-py3-none-any.whl", hash = "sha256:0f161f83d02ec40898d8a9b966c000715aace5c445e52b2ab2af05c44d9af238", size = 397970, upload-time = "2025-06-19T00:56:38.213Z" },
+    { url = "https://files.pythonhosted.org/packages/7b/d1/94ed44a7932202bbf07d10403b5ab832f01da33d27be02338b148f0f50e5/blaxel-0.2.0rc5-py3-none-any.whl", hash = "sha256:76c76226549bd6256140b3b40f8b3f2d30e2e82c8db28a92ba43cd3da448d388", size = 397436, upload-time = "2025-06-22T00:47:29.993Z" },
 ]
 
 [package.optional-dependencies]
@@ -1071,7 +1071,7 @@ wheels = [
 
 [[package]]
 name = "mcp"
-version = "1.6.0"
+version = "1.9.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1079,13 +1079,14 @@ dependencies = [
     { name = "httpx-sse" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
+    { name = "python-multipart" },
     { name = "sse-starlette" },
     { name = "starlette" },
-    { name = "uvicorn" },
+    { name = "uvicorn", marker = "sys_platform != 'emscripten'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/95/d2/f587cb965a56e992634bebc8611c5b579af912b74e04eb9164bd49527d21/mcp-1.6.0.tar.gz", hash = "sha256:d9324876de2c5637369f43161cd71eebfd803df5a95e46225cab8d280e366723", size = 200031, upload-time = "2025-03-27T16:46:32.336Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/06/f2/dc2450e566eeccf92d89a00c3e813234ad58e2ba1e31d11467a09ac4f3b9/mcp-1.9.4.tar.gz", hash = "sha256:cfb0bcd1a9535b42edaef89947b9e18a8feb49362e1cc059d6e7fc636f2cb09f", size = 333294, upload-time = "2025-06-12T08:20:30.158Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/10/30/20a7f33b0b884a9d14dd3aa94ff1ac9da1479fe2ad66dd9e2736075d2506/mcp-1.6.0-py3-none-any.whl", hash = "sha256:7bd24c6ea042dbec44c754f100984d186620d8b841ec30f1b19eda9b93a634d0", size = 76077, upload-time = "2025-03-27T16:46:29.919Z" },
+    { url = "https://files.pythonhosted.org/packages/97/fc/80e655c955137393c443842ffcc4feccab5b12fa7cb8de9ced90f90e6998/mcp-1.9.4-py3-none-any.whl", hash = "sha256:7fcf36b62936adb8e63f89346bccca1268eeca9bf6dfb562ee10b1dfbda9dac0", size = 130232, upload-time = "2025-06-12T08:20:28.551Z" },
 ]
 
 [[package]]
@@ -2047,7 +2048,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "asgi-correlation-id", specifier = ">=4.3.4" },
-    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.0rc1" },
+    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.0rc5" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
     { name = "rich", specifier = ">=13.9.4" },
 ]
