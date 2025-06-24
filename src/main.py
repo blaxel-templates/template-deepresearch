@@ -19,12 +19,13 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("Server shutting down")
 
+
 app = FastAPI(lifespan=lifespan)
 init_error_handlers(app)
 init_middleware(app)
 app.include_router(router)
 
-FastAPIInstrumentor.instrument_app(app)
+FastAPIInstrumentor.instrument_app(app, exclude_spans=["receive", "send"])
 
 if __name__ == "__main__":
     uvicorn.run(
