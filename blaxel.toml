@@ -5,3 +5,7 @@ models = ["sandbox-openai"]
 
 [env]
 TAVILY_API_KEY = "${secrets.TAVILY_API_KEY}"
+
+[entrypoint]
+prod = ".venv/bin/python3 -m src"
+dev = "uv run uvicorn src.main:app --reload --port 1338 --host 0.0.0.0"
