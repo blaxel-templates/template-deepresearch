@@ -6,27 +6,27 @@ from langgraph.graph.graph import RunnableConfig
 from rich.console import Console
 from rich.markdown import Markdown as RichMarkdown
 
-from agent.llmlogic import (
+from ..inputs import DeepSearchInput
+from .llmlogic import (
     generate_queries,
     generate_report_plan,
     search_web,
     write_final_sections,
     write_section,
 )
-from agent.searchtypes import (
+from .searchtypes import (
     ReportState,
     ReportStateInput,
     ReportStateOutput,
     SectionOutputState,
     SectionState,
 )
-from agent.writer import (
+from .writer import (
     compile_final_report,
     format_completed_sections,
     parallelize_final_section_writing,
     parallelize_section_writing,
 )
-from inputs import DeepSearchInput
 
 logger = getLogger(__name__)
 

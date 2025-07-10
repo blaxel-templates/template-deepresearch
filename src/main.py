@@ -2,13 +2,12 @@ import os
 from contextlib import asynccontextmanager
 from logging import getLogger
 
-import uvicorn
 from fastapi import FastAPI
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
-from server.error import init_error_handlers
-from server.middleware import init_middleware
-from server.router import router
+from .server.error import init_error_handlers
+from .server.middleware import init_middleware
+from .server.router import router
 
 logger = getLogger(__name__)
 
@@ -26,11 +25,3 @@ init_middleware(app)
 app.include_router(router)
 
 FastAPIInstrumentor.instrument_app(app, exclude_spans=["receive", "send"])
-
-if __name__ == "__main__":
-    uvicorn.run(
-        app,
-        host=os.getenv("BL_SERVER_HOST", "0.0.0.0"),
-        port=os.getenv("BL_SERVER_PORT", 80),
-        log_level="critical",
-    )

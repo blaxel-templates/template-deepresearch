@@ -2,8 +2,8 @@ from blaxel.telemetry.span import SpanManager
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
-from agent import agent
-from inputs import DeepSearchInput
+from ..agent import agent
+from ..inputs import DeepSearchInput
 
 router = APIRouter()
 

@@ -4,7 +4,7 @@ from blaxel.langgraph import bl_model
 from langchain_core.messages import HumanMessage, SystemMessage
 from langgraph.graph.graph import RunnableConfig
 
-from agent.prompts import (
+from .prompts import (
     DEFAULT_REPORT_STRUCTURE,
     FINAL_SECTION_WRITER_PROMPT,
     REPORT_PLAN_QUERY_GENERATOR_PROMPT,
@@ -12,8 +12,8 @@ from agent.prompts import (
     REPORT_SECTION_QUERY_GENERATOR_PROMPT,
     SECTION_WRITER_PROMPT,
 )
-from agent.search import SearchQuery, format_search_query_results, run_search_queries
-from agent.searchtypes import Queries, ReportState, Sections, SectionState
+from .search import SearchQuery, format_search_query_results, run_search_queries
+from .searchtypes import Queries, ReportState, Sections, SectionState
 
 logger = getLogger(__name__)
 model = bl_model("sandbox-openai")
