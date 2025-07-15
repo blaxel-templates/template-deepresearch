@@ -8,6 +8,7 @@ dependencies = [
     "asgi-correlation-id>=4.3.4",
     "blaxel[langgraph,telemetry]==0.2.8",
     "fastapi[standard]>=0.115.12",
+    "cohere==5.15.0",
     "rich>=13.9.4",
 ]
 [dependency-groups]
