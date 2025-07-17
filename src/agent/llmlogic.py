@@ -16,12 +16,12 @@ from .search import SearchQuery, format_search_query_results, run_search_queries
 from .searchtypes import Queries, ReportState, Sections, SectionState
 
 logger = getLogger(__name__)
-model = bl_model("sandbox-openai")
+MODEL = "sandbox-openai"
 
 
 async def generate_report_plan(state: ReportState, config: RunnableConfig):
     """Generate the overall plan for building the report"""
-    llm = await model
+    llm = await bl_model(MODEL)
     topic = state["topic"]
     logger.info(
         f"--- Generating Report Plan, report_plan_depth: {config['metadata']['report_plan_depth']} ---"
@@ -92,7 +92,7 @@ async def generate_queries(state: SectionState):
     """Generate search queries for a specific report section"""
 
     # Get state
-    llm = await model
+    llm = await bl_model(MODEL)
     section = state["section"]
     logger.info("--- Generating Search Queries for Section: " + section.name + " ---")
     # Get configuration
@@ -140,7 +140,7 @@ async def search_web(state: SectionState):
 
 async def write_section(state: SectionState):
     """Write a section of the report"""
-    llm = await model
+    llm = await bl_model(MODEL)
 
     # Get state
     section = state["section"]
@@ -170,7 +170,7 @@ async def write_section(state: SectionState):
 
 async def write_final_sections(state: SectionState):
     """Write the final sections of the report, which do not require web search and use the completed sections as context"""
-    llm = await model
+    llm = await bl_model(MODEL)
     # Get state
     section = state["section"]
     completed_report_sections = state["report_sections_from_research"]

@@ -72,7 +72,9 @@ async def agent(request: DeepSearchInput):
 
     config = RunnableConfig(
         recursion_limit=request.recursion_limit,
-        metadata={"report_plan_depth": request.report_plan_depth},
+        metadata={
+            "report_plan_depth": request.report_plan_depth,
+        },
     )
     message = {"topic": request.inputs}
     events = reporter_agent.astream(message, config, stream_mode="values")
@@ -84,6 +86,6 @@ async def agent(request: DeepSearchInput):
                     console.print(RichMarkdown(repr(k) + " -> " + repr(v)))
             if k == "final_report":
                 logger.info("=" * 50)
-                logger.info("Final Report:")
+                logger.info("Final Report")
                 yield v
     yield "No report found, you probably have an issue with tavily or openai connection"
