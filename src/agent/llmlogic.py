@@ -1,7 +1,8 @@
-from logging import getLogger
+import logging
 
 from blaxel.langgraph import bl_model
 from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.config import get_stream_writer
 from langgraph.graph.graph import RunnableConfig
 
 from .prompts import (
@@ -14,17 +15,20 @@ from .prompts import (
 )
 from .search import SearchQuery, format_search_query_results, run_search_queries
 from .searchtypes import Queries, ReportState, Sections, SectionState
+from .utils import log_event
 
-logger = getLogger(__name__)
 MODEL = "sandbox-openai"
 
 
 async def generate_report_plan(state: ReportState, config: RunnableConfig):
     """Generate the overall plan for building the report"""
+    writer = get_stream_writer()
     llm = await bl_model(MODEL)
     topic = state["topic"]
-    logger.info(
-        f"--- Generating Report Plan, report_plan_depth: {config['metadata']['report_plan_depth']} ---"
+
+    log_event(
+        writer,
+        f"--- Generating Report Plan, report_plan_depth: {config['metadata']['report_plan_depth']} ---",
     )
 
     report_structure = DEFAULT_REPORT_STRUCTURE
@@ -37,7 +41,6 @@ async def generate_report_plan(state: ReportState, config: RunnableConfig):
         report_organization=report_structure,
         number_of_queries=number_of_queries,
     )
-
     try:
         # Generate queries
         results = structured_llm.invoke(
@@ -58,7 +61,7 @@ async def generate_report_plan(state: ReportState, config: RunnableConfig):
             query_list, num_results=5, include_raw_content=False
         )
         if not search_docs:
-            logger.warning("Warning: No search results returned")
+            log_event(writer, "Warning: No search results returned", logging.WARNING)
             search_context = "No search results available."
         else:
             search_context = format_search_query_results(
@@ -80,11 +83,11 @@ async def generate_report_plan(state: ReportState, config: RunnableConfig):
             ]
         )
 
-        logger.info("--- Generating Report Plan Completed ---")
+        log_event(writer, "--- Generating Report Plan Completed ---")
         return {"sections": report_sections.sections}
 
     except Exception as e:
-        logger.error(f"Error in generate_report_plan: {e}")
+        log_event(writer, f"Error in generate_report_plan: {e}", logging.ERROR)
         return {"sections": []}
 
 
@@ -94,7 +97,10 @@ async def generate_queries(state: SectionState):
     # Get state
     llm = await bl_model(MODEL)
     section = state["section"]
-    logger.info("--- Generating Search Queries for Section: " + section.name + " ---")
+    writer = get_stream_writer()
+    log_event(
+        writer, "--- Generating Search Queries for Section: " + section.name + " ---"
+    )
     # Get configuration
     number_of_queries = 5
     # Generate queries
@@ -112,20 +118,22 @@ async def generate_queries(state: SectionState):
         ]
     )
 
-    logger.info(
-        "--- Generating Search Queries for Section: " + section.name + " Completed ---"
+    log_event(
+        writer,
+        "--- Generating Search Queries for Section: " + section.name + " Completed ---",
     )
     return {"search_queries": search_queries.queries}
 
 
 async def search_web(state: SectionState):
-    """Search the web for each query, then return a list of raw sources and a formatted string of sources."""
+    """Search the web for each query, then return
+    a list of raw sources and a formatted string of sources."""
 
     # Get state
     search_queries = state["search_queries"]
-    logger.info("--- Searching Web for Queries ---")
-    # Web search
-    query_list = [query.search_query for query in search_queries]
+    writer = get_stream_writer()
+    log_event(writer, "--- Searching Web for Queries ---")
+
     search_docs = await run_search_queries(
         search_queries, num_results=6, include_raw_content=True
     )
@@ -134,7 +142,7 @@ async def search_web(state: SectionState):
         search_docs, max_tokens=4000, include_raw_content=True
     )
 
-    logger.info("--- Searching Web for Queries Completed ---")
+    log_event(writer, "--- Searching Web for Queries Completed ---")
     return {"source_str": search_context}
 
 
@@ -145,7 +153,8 @@ async def write_section(state: SectionState):
     # Get state
     section = state["section"]
     source_str = state["source_str"]
-    logger.info("--- Writing Section : " + section.name + " ---")
+    writer = get_stream_writer()
+    log_event(writer, "--- Writing Section : " + section.name + " ---")
     # Format system instructions
     system_instructions = SECTION_WRITER_PROMPT.format(
         section_title=section.name,
@@ -163,7 +172,7 @@ async def write_section(state: SectionState):
     # Write content to the section object
     section.content = section_content.content
 
-    logger.info("--- Writing Section : " + section.name + " Completed ---")
+    log_event(writer, "--- Writing Section : " + section.name + " Completed ---")
     # Write the updated section to completed sections
     return {"completed_sections": [section]}
 
@@ -175,7 +184,8 @@ async def write_final_sections(state: SectionState):
     section = state["section"]
     completed_report_sections = state["report_sections_from_research"]
 
-    logger.info("--- Writing Final Section: " + section.name + " ---")
+    writer = get_stream_writer()
+    log_event(writer, "--- Writing Final Section: " + section.name + " ---")
     # Format system instructions
     system_instructions = FINAL_SECTION_WRITER_PROMPT.format(
         section_title=section.name,
@@ -195,6 +205,6 @@ async def write_final_sections(state: SectionState):
     # Write content to section
     section.content = section_content.content
 
-    logger.info("--- Writing Final Section: " + section.name + " Completed ---")
+    log_event(writer, "--- Writing Final Section: " + section.name + " Completed ---")
     # Write the updated section to completed sections
     return {"completed_sections": [section]}

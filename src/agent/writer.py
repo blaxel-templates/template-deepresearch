@@ -1,10 +1,8 @@
-from logging import getLogger
-
+from langgraph.config import get_stream_writer
 from langgraph.constants import Send
 
 from .searchtypes import ReportState, Section
-
-logger = getLogger(__name__)
+from .utils import log_event
 
 
 def parallelize_section_writing(state: ReportState):
@@ -43,25 +41,25 @@ Content:
 
 def format_completed_sections(state: ReportState):
     """Gather completed sections from research and format them as context for writing the final sections"""
-
-    logger.info("--- Formatting Completed Sections ---")
+    writer = get_stream_writer()
+    log_event(writer, "--- Formatting Completed Sections ---")
     # List of completed sections
     completed_sections = state["completed_sections"]
     # Format completed section to str to use as context for final sections
     completed_report_sections = format_sections(completed_sections)
 
-    logger.info("--- Formatting Completed Sections is Done ---")
+    log_event(writer, "--- Formatting Completed Sections is Done ---")
     return {"report_sections_from_research": completed_report_sections}
 
 
 def compile_final_report(state: ReportState):
     """Compile the final report"""
-
+    writer = get_stream_writer()
     # Get sections
     sections = state["sections"]
     completed_sections = {s.name: s.content for s in state["completed_sections"]}
 
-    logger.info("--- Compiling Final Report ---")
+    log_event(writer, "--- Compiling Final Report ---")
     # Update sections with completed content while maintaining original order
     for section in sections:
         section.content = completed_sections[section.name]
@@ -78,7 +76,7 @@ def compile_final_report(state: ReportState):
     )  # Restore originally escaped $
 
     # Now escaped_sections contains the properly escaped Markdown text
-    logger.info("--- Compiling Final Report Done ---")
+    log_event(writer, "--- Compiling Final Report Done ---")
     return {"final_report": formatted_sections}
 
 

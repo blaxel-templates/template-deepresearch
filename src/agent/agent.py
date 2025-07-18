@@ -1,10 +1,7 @@
 from logging import getLogger
 
-from blaxel.core.common.env import env
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.graph import RunnableConfig
-from rich.console import Console
-from rich.markdown import Markdown as RichMarkdown
 
 from ..inputs import DeepSearchInput
 from .llmlogic import (
@@ -68,8 +65,6 @@ reporter_agent = builder.compile()
 
 
 async def agent(request: DeepSearchInput):
-    console = Console()
-
     config = RunnableConfig(
         recursion_limit=request.recursion_limit,
         metadata={
@@ -77,15 +72,21 @@ async def agent(request: DeepSearchInput):
         },
     )
     message = {"topic": request.inputs}
-    events = reporter_agent.astream(message, config, stream_mode="values")
 
-    async for event in events:
-        for k, v in event.items():
-            if env.VERBOSE:
-                if k != "__end__":
-                    console.print(RichMarkdown(repr(k) + " -> " + repr(v)))
-            if k == "final_report":
-                logger.info("=" * 50)
-                logger.info("Final Report")
-                yield v
-    yield "No report found, you probably have an issue with tavily or openai connection"
+    # Stream both custom logs and final values
+    events = reporter_agent.astream(message, config, stream_mode=["custom", "values"])
+
+    async for mode, event in events:
+        if mode == "custom":
+            # Handle custom logs from nodes
+            if "log" in event:
+                yield f"{event['level']}: {event['log']}\n"
+        elif mode == "values":
+            # Handle state updates including final report
+            for k, v in event.items():
+                if k == "final_report":
+                    yield "INFO: Final Report\n"
+                    yield v
+                    return
+
+    yield "No report found, you probably have an issue with tavily or openai connection\n"
