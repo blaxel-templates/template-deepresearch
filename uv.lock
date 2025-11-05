@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.13'",
@@ -153,7 +153,7 @@ wheels = [
 
 [[package]]
 name = "blaxel"
-version = "0.2.15"
+version = "0.2.22"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
@@ -167,9 +167,9 @@ dependencies = [
     { name = "tomli" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/46/0c/3345bf0705f2308c52baf77b84b83de598c84a0cd60397f049b85fb4fabe/blaxel-0.2.15.tar.gz", hash = "sha256:8cd0eb4a8c943fe803250f5721ee8cbf2040f2139437e4d55d148fbb47c73603", size = 267420, upload-time = "2025-08-20T20:16:51.797Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6a/a8/28ecdf63f3b7ea834858c559cd9d8bffe4520c5d20cfd2eb89bec24e2963/blaxel-0.2.22.tar.gz", hash = "sha256:6add83b4d56770a047f21c491b7785ca4220261e7fb4627676d69e60e6bad76d", size = 412282, upload-time = "2025-11-04T11:11:17.407Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ad/f3/790b7b68984345673ebf678b070629dbada4fb57b6e2d5e6db236aa2b16e/blaxel-0.2.15-py3-none-any.whl", hash = "sha256:f53c0d65377d7304aa65ab1b9e767125192077ae563a0afd3fefe3130e642ac0", size = 407362, upload-time = "2025-08-20T20:16:49.771Z" },
+    { url = "https://files.pythonhosted.org/packages/ef/be/ac20234cfa350deedaa208ca3d9b986b009603e98c3af96be2d3c92b441e/blaxel-0.2.22-py3-none-any.whl", hash = "sha256:cb62d24129011b0ef7f137f35151c8c105f68bf1fc3171fe7005c58ae7282a81", size = 465625, upload-time = "2025-11-04T11:11:15.367Z" },
 ]
 
 [package.optional-dependencies]
@@ -2037,7 +2037,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "asgi-correlation-id", specifier = ">=4.3.4" },
-    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.19" },
+    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.22" },
     { name = "cohere", specifier = "==5.15.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
     { name = "rich", specifier = ">=13.9.4" },
