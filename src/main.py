@@ -14,7 +14,7 @@ logger = getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info(f"Server running on port {os.getenv('BL_SERVER_PORT', 80)}")
+    logger.info(f"Server running on port {os.getenv('PORT', 80)}")
     yield
     logger.info("Server shutting down")
 
