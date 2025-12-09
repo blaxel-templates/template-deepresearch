@@ -153,7 +153,7 @@ wheels = [
 
 [[package]]
 name = "blaxel"
-version = "0.2.30"
+version = "0.2.32"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
@@ -168,9 +168,9 @@ dependencies = [
     { name = "tomli" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2a/a3/bb45cba0d8761c3e93c5c3eaa2b3ca6205de05e5bc23dec3b9f7a28984fd/blaxel-0.2.30.tar.gz", hash = "sha256:b3bbf9786dc5c78c7806bb8dd624874c6a9c16a26fda643be83a482819d81c45", size = 449017, upload-time = "2025-12-03T21:40:46.749Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b2/4f/d22bccd8bcc3f37c40efe36ece07db903c419e3a74033b81e46b9ae31563/blaxel-0.2.32.tar.gz", hash = "sha256:8759aed53ad0f3adac7a33698b119e3ba8d6452aaca64f252c8b0257728ffa88", size = 457313, upload-time = "2025-12-09T16:44:54.338Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/02/f9146975c5d74cb822d4e60fa2878554809aaefbb680c6706d9b18d033c0/blaxel-0.2.30-py3-none-any.whl", hash = "sha256:53102189d216980ad64caa6ee5dd2fd4b3e78e08d4a85107336481591fca3888", size = 511538, upload-time = "2025-12-03T21:40:45.34Z" },
+    { url = "https://files.pythonhosted.org/packages/eb/2f/e5bbc4c59480c53508a345890a49914e37258029a13b3108b0cd3d2ec770/blaxel-0.2.32-py3-none-any.whl", hash = "sha256:80e3b05a3dd40b67ef927fcd03ef66d8d918ef285a56ecd3e89e433ef47cc2fe", size = 527603, upload-time = "2025-12-09T16:44:55.986Z" },
 ]
 
 [package.optional-dependencies]
@@ -2051,7 +2051,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "asgi-correlation-id", specifier = ">=4.3.4" },
-    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.30" },
+    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.32" },
     { name = "cohere", specifier = "==5.15.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
     { name = "rich", specifier = ">=13.9.4" },
