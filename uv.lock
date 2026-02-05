@@ -153,7 +153,7 @@ wheels = [
 
 [[package]]
 name = "blaxel"
-version = "0.2.32"
+version = "0.2.37"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
@@ -164,13 +164,12 @@ dependencies = [
     { name = "python-dateutil" },
     { name = "pyyaml" },
     { name = "requests" },
-    { name = "sentry-sdk" },
     { name = "tomli" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/4f/d22bccd8bcc3f37c40efe36ece07db903c419e3a74033b81e46b9ae31563/blaxel-0.2.32.tar.gz", hash = "sha256:8759aed53ad0f3adac7a33698b119e3ba8d6452aaca64f252c8b0257728ffa88", size = 457313, upload-time = "2025-12-09T16:44:54.338Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/5a/d0a03da98cc06da56e5618810f77605e70b7c65247b56c82ab0426cc7a55/blaxel-0.2.37.tar.gz", hash = "sha256:cc957accfbebcdcc37c323e422962d809a0ecff464854769e961042159ca3eae", size = 440043, upload-time = "2026-02-03T01:41:15.107Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/eb/2f/e5bbc4c59480c53508a345890a49914e37258029a13b3108b0cd3d2ec770/blaxel-0.2.32-py3-none-any.whl", hash = "sha256:80e3b05a3dd40b67ef927fcd03ef66d8d918ef285a56ecd3e89e433ef47cc2fe", size = 527603, upload-time = "2025-12-09T16:44:55.986Z" },
+    { url = "https://files.pythonhosted.org/packages/15/14/158e411bcb71fa863c7c43ef913f2480871a47967a95bd8016950d103aa2/blaxel-0.2.37-py3-none-any.whl", hash = "sha256:85365648483e6328951cbe2d31d6783ff913812bbcaaa188d86c485cbb7578dd", size = 511775, upload-time = "2026-02-03T01:41:17.28Z" },
 ]
 
 [package.optional-dependencies]
@@ -1938,19 +1937,6 @@ wheels = [
 ]
 
 [[package]]
-name = "sentry-sdk"
-version = "2.47.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "certifi" },
-    { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/2a/d225cbf87b6c8ecce5664db7bcecb82c317e448e3b24a2dcdaacb18ca9a7/sentry_sdk-2.47.0.tar.gz", hash = "sha256:8218891d5e41b4ea8d61d2aed62ed10c80e39d9f2959d6f939efbf056857e050", size = 381895, upload-time = "2025-12-03T14:06:36.846Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bd/ac/d6286ea0d49e7b58847faf67b00e56bb4ba3d525281e2ac306e1f1f353da/sentry_sdk-2.47.0-py2.py3-none-any.whl", hash = "sha256:d72f8c61025b7d1d9e52510d03a6247b280094a327dd900d987717a4fce93412", size = 411088, upload-time = "2025-12-03T14:06:35.374Z" },
-]
-
-[[package]]
 name = "shellingham"
 version = "1.5.4"
 source = { registry = "https://pypi.org/simple" }
@@ -2051,7 +2037,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "asgi-correlation-id", specifier = ">=4.3.4" },
-    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.32" },
+    { name = "blaxel", extras = ["langgraph", "telemetry"], specifier = "==0.2.37" },
     { name = "cohere", specifier = "==5.15.0" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
     { name = "rich", specifier = ">=13.9.4" },
